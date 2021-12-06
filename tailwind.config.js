@@ -1,8 +1,9 @@
 module.exports = {
   purge: ['./public/**/*.html', './src/**/*.vue'],
-  darkMode: false, // or 'media' or 'class'
+  //darkMode: 'class', // or 'media' or 'class'
   theme: {
     extend: {},
+
 
     //para modificar la clase container que viene por defecto en tailwind
 
@@ -14,5 +15,8 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    //require('@tailwindcss/forms'),
+    require('daisyui'),
+  ],
 }
