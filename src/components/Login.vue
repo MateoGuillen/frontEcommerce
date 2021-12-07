@@ -8,16 +8,7 @@
         <div class="py-3  bg-blue-600"> <input type="submit" class=" bg-green-600" v-on:click="login(user)"> </div>
         
         
-        <input @change="darkMode" type="checkbox" checked="checked" class="toggle toggle-primary">
-        <div class="p-6 card bordered">
-          <div class="form-control">
-            <label class="cursor-pointer label">
-              <span class="label-text">Dark Mode</span> 
-              <input @change="darkMode" type="checkbox" checked="checked" class="toggle toggle-primary">
-            </label>
-          </div>
-        </div>
-
+        <input id="toggleMode" v-on:change="darkMode()" type="checkbox" class="toggle toggle-primary">
         <button @click="showAlert" class="btn btn-primary">Show SweetAlert</button>
         
       </div>
@@ -45,6 +36,7 @@ export default {
     return {
 
       data:null,
+      currentMode:"light",
 
       user:{
         email:'mateo@test.com',
@@ -70,23 +62,56 @@ export default {
     showAlert2() {
       alert2();
     },
+
     darkMode(){
-      //document.getElementById("mode").classList.add('dark');
-      //document.getElementById("mode").classList.remove('dark');
+
       var element = document.getElementById("mode");
-      element.setAttribute("data-theme", "dark");
+      var toggle = document.getElementById("toggleMode");
+      
+      if(toggle.checked){
+        this.currentMode = "dark";
+        localStorage.setItem("mode","dark")
+        element.setAttribute("data-theme","dark");
+      }else{
+        this.currentMode = "light";
+        localStorage.setItem("mode","light")
+        element.setAttribute("data-theme","light");
+      }
+      
+      
+    },
+
+    getCurrentMode(){
+
+      var element = document.getElementById("mode");
+      var toggle = document.getElementById("toggleMode");
 
       
+      this.currentMode = localStorage.getItem("mode") == null 
+                        ? localStorage.setItem("mode","light"): localStorage.getItem("mode") ;
+      
+      if(this.currentMode == "light"){
+        element.setAttribute("data-theme","light");
+        
+      }else if(this.currentMode == "dark"){
+        toggle.checked = true
+        element.setAttribute("data-theme","dark");
+      }
+      
+
+
     }
 
   },
 
   created() {
+    //this.getCurrentMode();
   },
 
     
 
   mounted() {
+    this.getCurrentMode();
     
   },
 
